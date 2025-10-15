@@ -1,0 +1,61 @@
+from pyspark import SparkContext
+sc=SparkContext("local","WordCount")
+words=sc.textFile("input.txt").flatMap(lamda x:x.split(""))
+count=words.map(lambda x:(x,1)).reduceByKey(lambda a,b:a+b)
+print(count.collect())
+nums=sc.textFile("number.txt").map(lamda x:int(x))
+print(num.max())
+
+
+
+#include<stdio.h>
+#include<omp.h>
+int main()
+{
+    int arr[5]={2,5,6,8};
+    int sum=0;
+    #pragma omp parallel for reduction(+:sum)
+    for(int i=0;i<5;i++)
+    {
+     sum=sum+arr[i];
+    }
+    printf()
+}
+
+#include<stdio.h>
+#include<mpi.h>
+int main(int argc,char** argv)
+{
+    int rank,size;
+    int marks[5]={23,56,89,70};
+    MPI_Init(&agrc,&argv);
+    MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+    MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+    int marks_s=marks[rank];
+    printf()
+    MPI_Reduce(&marks_s,&total,1,MPI_INT,MPI_SUM,0,MPI_COMM_WORLD)
+    
+}
+
+
+import java.io.*;
+import org.apache.hadoop.io.*;
+import org.apache.hadoop.mapreduce.*;
+public class WordCount 
+{
+public static class Map extends Mapper<LongWritable,Text,Text,IntWritable>
+{
+    public void map(LongWritable k,Text v ,Context c )
+    {
+        for(String w:v.toString().split("") c.write(new Text(w),IntWritable(1)));
+    }
+}
+public static class Reduce extends Reducer<Text,IntWritable,Text,IntWritable>
+{
+    public void reduce(Text k,Iterable<IntWritable>,Context c )
+    {
+        int s=0;
+        for(IntWritable x:v)s+=x.get();c.write(k,new IntWritable(s))
+    }
+}
+}

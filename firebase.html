@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Application</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+        button {
+      background: #4285f4;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #357ae8;
+    }
+    #msg {
+      color: green;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Student Application Form</h1>
+  <form id="form">
+    <label>Name:</label>
+    <input type="text" id="name" placeholder="Enter your full name" required>
+    
+    <label>Email:</label>
+    <input type="email" id="email" placeholder="your.email@example.com" required>
+    
+    <label>Phone:</label>
+    <input type="tel" id="phone" required>
+    
+    <label>Grade:</label>
+    <select id="grade" required>
+      <option value="">Select your grade</option>
+      <option value="9">9th Grade</option>
+      <option value="10">10th Grade</option>
+      <option value="11">11th Grade</option>
+      <option value="12">12th Grade</option>
+    </select>
+    
+    <button type="submit">Submit Application</button>
+  </form>
+  
+  <p id="msg"></p>
+  
+  <script>
+    document.getElementById('form').onsubmit = function(e) {
+      e.preventDefault();
+      const msg = document.getElementById('msg');
+      const name = document.getElementById('name').value;
+      
+      msg.innerHTML = 'application submitted!';
+      msg.style.color = 'green';
+      
+      setTimeout(() => {
+        this.reset();
+        msg.innerHTML = '';
+      }, 4000);
+    }
+  </script>
+</body>
+</html>

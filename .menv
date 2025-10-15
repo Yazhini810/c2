@@ -1,0 +1,3 @@
+MONGO_URI="mongodb+srv://<username>:<password>@<cluster>.mongodb.net/mydb?retryWrites=true&w=majority"
+ACCESS_TOKEN="my-secret-token"
+PORT=5000

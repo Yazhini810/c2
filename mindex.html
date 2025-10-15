@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mongo Atlas Token App</title>
+</head>
+<body>
+  <h2>Mongo Atlas Token Authentication Demo</h2>
+
+  <input id="name" placeholder="Enter name">
+  <button onclick="addUser()">Add User</button>
+  <ul id="list"></ul>
+
+  <script>
+    const TOKEN = "my-secret-token"
+    const API = "http://localhost:5000"
+
+    async function addUser() {
+      const name = document.getElementById("name").value
+      if (!name) return alert("Please enter a name")
+      const res = await fetch(`${API}/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${TOKEN}`
+        },
+        body: JSON.stringify({ name })
+      })
+      const data = await res.json()
+      alert(data.message || data.error)
+      getUsers()
+    }
+
+    async function deleteUser(id) {
+      const res = await fetch(`${API}/delete/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${TOKEN}` }
+      })
+      const data = await res.json()
+      alert(data.message || data.error)
+      getUsers()
+    }
+
+    async function getUsers() {
+      const res = await fetch(`${API}/users`, {
+        headers: { "Authorization": `Bearer ${TOKEN}` }
+      })
+      const users = await res.json()
+      document.getElementById("list").innerHTML = users
+        .map(u => `<li>${u.name} <button onclick="deleteUser('${u._id}')">Delete</button></li>`)
+        .join("")
+    }
+
+    getUsers()
+  </script>
+</body>
+</html>
