@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student App</title>
+</head>
+<body>
+  <h2>Student Manager</h2>
+
+  <input id="name" placeholder="Name"><br>
+  <input id="age" placeholder="Age" type="number"><br>
+  <input id="grade" placeholder="Grade"><br>
+  <button onclick="addStudent()">Add Student</button>
+
+  <h3>All Students</h3>
+  <div id="students"></div>
+
+  <script>
+    const api = 'http://localhost:4000/students';
+
+    async function loadStudents() {
+      const res = await fetch(api);
+      const data = await res.json();
+      const div = document.getElementById('students');
+      div.innerHTML = '';
+      data.forEach(s => {
+        div.innerHTML += `
+          <p>
+            ID: ${s.id}, Name: ${s.name}, Age: ${s.age}, Grade: ${s.grade}
+            <button onclick="deleteStudent(${s.id})">Delete</button>
+          </p>`;
+      });
+    }
+
+    async function addStudent() {
+      const student = {
+        name: document.getElementById('name').value,
+        age: parseInt(document.getElementById('age').value),
+        grade: document.getElementById('grade').value
+      };
+      await fetch(api, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(student)
+      });
+      loadStudents();
+    }
+
+    async function deleteStudent(id) {
+      await fetch(`${api}/${id}`, { method: 'DELETE' });
+      loadStudents();
+    }
+
+    loadStudents();
+  </script>
+</body>
+</html>
